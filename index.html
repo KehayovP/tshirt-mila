@@ -1,11 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <title>Smart T-Shirt v1.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --green: #00ff9c;
+      --red: #ff4d4d;
+      --white: #e6f1ff;
+      --dim: #8b949e;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Courier New", monospace;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #122033, var(--bg));
+      color: var(--green);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .device {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 0 40px rgba(0,255,156,0.15);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--dim);
+      margin-bottom: 20px;
+    }
+
+    .terminal {
+      background: #020409;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      height: 260px;
+      overflow-y: auto;
+      border: 1px solid rgba(0,255,156,0.3);
+    }
+
+    .line {
+      opacity: 0;
+      animation: fadeIn 0.4s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .highlight {
+      color: var(--white);
+    }
+
+    .warning {
+      color: var(--red);
+    }
+
+    .editor {
+      margin-top: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      background: #020409;
+      color: var(--green);
+      border: 1px solid rgba(0,255,156,0.4);
+      border-radius: 8px;
+      padding: 12px;
+      resize: vertical;
+      font-size: 0.85rem;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: var(--green);
+      color: #000;
+    }
+
+    footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--dim);
+    }
+  </style>
 </head>
+
 <body>
-    Mila
+  <div class="device">
+    <div class="title">🎄 SMART T-SHIRT OS 🎄</div>
+    <div class="subtitle">Firmware v1.0 • Christmas Edition</div>
+
+    <div class="terminal" id="terminal"></div>
+
+    <div class="editor">
+      <p class="highlight">🔧 Reprogram this T-Shirt:</p>
+      <textarea id="customMessage">
+// Change this message to anything you want.
+// This QR can become a love note,
+// a business card,
+// a Wi-Fi password,
+// or a secret project 😉
+
+Merry Christmas 🎄
+You are now the proud owners
+of the world’s first
+programmable T-Shirt.
+      </textarea>
+      <button onclick="runCustomMessage()">Deploy Firmware</button>
+    </div>
+
+    <footer>
+      Made with ❤️ + ☕ + JavaScript<br>
+      This device improves with hacking.
+    </footer>
+  </div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+
+    const bootSequence = [
+      "Powering Smart T-Shirt...",
+      "Checking sensors... OK",
+      "Establishing festive mood... OK",
+      "Loading Christmas spirit module...",
+      "Initializing QR interface...",
+      "Device online.",
+      "",
+      "🎁 MESSAGE DETECTED 🎁",
+      "Merry Christmas!",
+      "This is not just a T-Shirt.",
+      "This is a programmable interface.",
+      "",
+      "Warning:",
+      "Wearers may experience:",
+      "- Sudden urge to build smart devices",
+      "- Excessive creativity",
+      "- Debugging at 2 AM",
+      "",
+      "Status: READY FOR HACKING"
+    ];
+
+    let delay = 0;
+
+    bootSequence.forEach((text, i) => {
+      setTimeout(() => {
+        const line = document.createElement("div");
+        line.className = "line";
+        if (text.includes("Warning")) line.classList.add("warning");
+        if (text.includes("Merry") || text.includes("READY")) line.classList.add("highlight");
+        line.textContent = "> " + text;
+        terminal.appendChild(line);
+        terminal.scrollTop = terminal.scrollHeight;
+      }, delay);
+      delay += 300;
+    });
+
+    function runCustomMessage() {
+      terminal.innerHTML = "";
+      const msg = document.getElementById("customMessage").value.split("\n");
+
+      msg.forEach((line, i) => {
+        setTimeout(() => {
+          const div = document.createElement("div");
+          div.className = "line highlight";
+          div.textContent = "> " + line;
+          terminal.appendChild(div);
+          terminal.scrollTop = terminal.scrollHeight;
+        }, i * 200);
+      });
+    }
+  </script>
 </body>
 </html>
